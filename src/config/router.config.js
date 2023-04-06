@@ -378,5 +378,60 @@ export const constantRouterMap = [
     path: '/404',
     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')
   },
-
+  {
+    path: '/pdc',
+    component: TabLayout,
+    redirect: '/pdc',
+    children: [
+      { 
+        meta: {title: '厂矿基本信息', icon: 'dashboard'},
+        path: '/pdc/baseData/FactoryAndMine',
+        name: 'FactoryAndMine',
+        component: () => import('@/views/pdc/baseData/FactoryAndMine')
+      },
+      { 
+        meta: {title: '传输设备基本信息', icon: 'dashboard'},
+        path: '/pdc/baseData/TransmissionEquipment',
+        name: 'TransmissionEquipment',
+        component: () => import('@/views/pdc/baseData/TransmissionEquipment')
+      },
+      { 
+        meta: {title: '班次基本信息', icon: 'dashboard'},
+        path: '/pdc/baseData/Classes',
+        name: 'Classes',
+        component: () => import('@/views/pdc/baseData/Classes')
+      },
+      { 
+        meta: {title: '绑定关系', icon: 'dashboard'},
+        path: '/pdc/baseData/BindingRelation',
+        name: 'BindingRelation',
+        component: () => import('@/views/pdc/baseData/BindingRelation')
+      },
+      { 
+        meta: {title: '用电量数据', icon: 'dashboard'},
+        path: '/pdc/baseData/ElectricityConsumption',
+        name: 'ElectricityConsumption',
+        component: () => import('@/views/pdc/baseData/ElectricityConsumption')
+      },
+      { 
+        meta: {title: '皮带实时产量', icon: 'dashboard'},
+        path: '/pdc/EquipmentRawData/Belt',
+        name: 'Belt',
+        component: () => import('@/views/pdc/EquipmentRawData/Belt')
+      },
+      { 
+        meta: {title: '公路地磅实时数据', icon: 'dashboard'},
+        path: '/pdc/EquipmentRawData/HighWay',
+        name: 'Belt',
+        component: () => import('@/views/pdc/EquipmentRawData/HighWay')
+      },
+      { 
+        meta: {title: '铁路轨道衡实时数据', icon: 'dashboard'},
+        path: '/pdc/EquipmentRawData/RailWay',
+        name: 'Belt',
+        component: () => import('@/views/pdc/EquipmentRawData/RailWay')
+      }
+    ]
+  },
+  
 ]

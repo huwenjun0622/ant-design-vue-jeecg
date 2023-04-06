@@ -6,16 +6,31 @@ import 'nprogress/nprogress.css' // progress bar style
 import notification from 'ant-design-vue/es/notification'
 import { ACCESS_TOKEN,INDEX_MAIN_PAGE_PATH, OAUTH2_LOGIN_PAGE_PATH } from '@/store/mutation-types'
 import { generateIndexRouter, isOAuth2AppEnv } from '@/utils/util'
+import { createLogger } from 'vuex'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/user/login', '/user/register', '/user/register-result','/user/alteration'] // no redirect whitelist
+const whiteList = [
+  '/user/login', 
+  '/user/register', 
+  '/user/register-result',
+  '/user/alteration', // no redirect whitelist
+  
+  '/pdc/EquipmentRawData/RailWay', 
+  '/pdc/EquipmentRawData/HighWay', 
+  '/pdc/EquipmentRawData/Belt', 
+  '/pdc/baseData/ElectricityConsumption', 
+  '/pdc/baseData/FactoryAndMine',
+  '/pdc/baseData/TransmissionEquipment', 
+  '/pdc/baseData/Classes', 
+  '/pdc/baseData/BindingRelation'
+]
 whiteList.push(OAUTH2_LOGIN_PAGE_PATH)
 
 router.beforeEach((to, from, next) => {
   //update-begin---author:scott ---date:2022-10-13  for：[jeecg-boot/issues/4091]多级路由缓存问题 #4091-----------
   //解决三级菜单无法缓存问题
-  //参考： https://blog.csdn.net/qq_37322135/article/details/126013301
+  //参考： https://blog.csdn.net/qq_37322135/article/details/126013301·
   //参考： https://blog.csdn.net/cwin8951/article/details/106644118
   if (to.matched && to.matched.length>3) {
     to.matched.splice(2, to.matched.length - 3)
@@ -25,7 +40,9 @@ router.beforeEach((to, from, next) => {
   
   NProgress.start() // start progress bar
 
+
   if (Vue.ls.get(ACCESS_TOKEN)) {
+    console.log(111)
     /* has token */
     if (to.path === '/user/login' || to.path === OAUTH2_LOGIN_PAGE_PATH) {
       next({ path: INDEX_MAIN_PAGE_PATH })
@@ -69,6 +86,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
+    console.log(111)
     if (whiteList.indexOf(to.path) !== -1) {
       // 在免登录白名单，如果进入的页面是login页面并且当前是OAuth2app环境，就进入OAuth2登录页面
       if (to.path === '/user/login' && isOAuth2AppEnv()) {
