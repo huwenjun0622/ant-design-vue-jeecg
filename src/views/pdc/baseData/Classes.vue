@@ -102,21 +102,21 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <classes-model ref="modalForm" @ok="modalFormOk"></classes-model>
+    <classes-modal ref="modalForm" @ok="modalFormOk"></classes-modal>
   </a-card>
 </template>
 
 <script>
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
-import ClassesModel from './modules/ClassesModel.vue';
+import ClassesModal from './modules/ClassesModal.vue';
 
   export default {
     name: "Classes",
     mixins: [JeecgListMixin],
     components: {
       JEllipsis,
-      ClassesModel
+      ClassesModal
     },
     data() {
       return {

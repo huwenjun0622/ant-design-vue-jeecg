@@ -1,7 +1,7 @@
 <template>
   <a-layout class="layout" :class="[device]">
 
-    <template v-if="layoutMode === 'sidemenu'">
+    <!-- <template v-if="layoutMode === 'sidemenu'">
       <a-drawer
         v-if="device === 'mobile'"
         :wrapClassName="'drawer-sider ' + navTheme"
@@ -31,9 +31,9 @@
         :theme="navTheme"
         :collapsed="collapsed"
         :collapsible="true"></side-menu>
-    </template>
+    </template> -->
     <!-- 下次优化这些代码 -->
-    <template v-else>
+    <!-- <template v-else>
       <a-drawer
         v-if="device === 'mobile'"
         :wrapClassName="'drawer-sider ' + navTheme"
@@ -52,7 +52,7 @@
           :collapsed="false"
           :collapsible="true"></side-menu>
       </a-drawer>
-    </template>
+    </template> -->
 
     <a-layout
       :class="[layoutMode, `content-width-${contentWidth}`]"
@@ -74,9 +74,9 @@
       </a-layout-content>
 
       <!-- layout footer -->
-      <a-layout-footer style="padding: 0px">
+      <!-- <a-layout-footer style="padding: 0px">
         <global-footer/>
-      </a-layout-footer>
+      </a-layout-footer> -->
     </a-layout>
 
     <!-- update-start---- author:os_chengtgen -- date:20190830 --  for:issues/463 -编译主题颜色已生效，但还一直转圈，显示主题 正在编译 ---- -->

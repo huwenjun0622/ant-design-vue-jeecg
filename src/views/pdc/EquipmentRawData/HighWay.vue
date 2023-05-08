@@ -108,14 +108,14 @@
 <script>
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
-import HighWayModel from './modules/HighWayModel.vue';
+import HighWayModal from './modules/HighWayModal.vue';
 
   export default {
     name: "HighWay",
     mixins: [JeecgListMixin],
     components: {
       JEllipsis,
-        HighWayModel
+        HighWayModal
     },
     data() {
       return {

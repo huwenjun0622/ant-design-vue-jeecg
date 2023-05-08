@@ -1,7 +1,8 @@
 <template>
   <div class="main">
     <a-form-model class="user-layout-login" @keyup.enter.native="handleSubmit">
-      <a-tabs :activeKey="customActiveKey" :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"  @change="handleTabClick">
+          <login-account ref="alogin" @validateFail="validateFail" @success="requestSuccess" @fail="requestFailed"></login-account>
+      <!-- <a-tabs :activeKey="customActiveKey" :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"  @change="handleTabClick">
         <a-tab-pane key="tab1" tab="账号密码登录">
           <login-account ref="alogin" @validateFail="validateFail" @success="requestSuccess" @fail="requestFailed"></login-account>
         </a-tab-pane>
@@ -9,9 +10,9 @@
         <a-tab-pane key="tab2" tab="手机号登录">
           <login-phone ref="plogin" @validateFail="validateFail" @success="requestSuccess" @fail="requestFailed"></login-phone>
         </a-tab-pane>
-      </a-tabs>
+      </a-tabs> -->
 
-      <a-form-model-item>
+      <!-- <a-form-model-item>
         <a-checkbox @change="handleRememberMeChange" default-checked>自动登录</a-checkbox>
         <router-link :to="{ name: 'alteration'}" class="forge-password" style="float: right;">
           忘记密码
@@ -19,7 +20,7 @@
         <router-link :to="{ name: 'register'}" class="forge-password" style="float: right;margin-right: 10px" >
           注册账户
         </router-link>
-      </a-form-model-item>
+      </a-form-model-item> -->
 
       <a-form-item style="margin-top:24px">
         <a-button size="large"  type="primary"  htmlType="submit"  class="login-button"  :loading="loginBtn"  @click.stop.prevent="handleSubmit" :disabled="loginBtn">确定
@@ -127,7 +128,7 @@ export default {
       },
       //登录成功
       loginSuccess () {
-        this.$router.push({ path: "/dashboard/analysis" }).catch(()=>{
+        this.$router.push({ path: "/pdc/EquipmentRawData/BeltData" }).catch(()=>{
           console.log('登录跳转首页出错,这个错误从哪里来的')
         })
         this.$notification.success({

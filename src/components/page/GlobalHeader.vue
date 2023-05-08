@@ -17,9 +17,9 @@
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click="toggle"/>
 
-      <span v-if="device === 'desktop'">欢迎进入 Jeecg-Boot 企业级低代码平台</span>
-      <span v-else>Jeecg-Boot</span>
-
+      <span v-if="device === 'desktop'">欢迎进入 皮带秤项目 平台</span>
+      <span v-else>皮带秤项目</span>
+      <a-button @click="handleLogout">退出登陆</a-button>
       <user-menu :theme="theme"/>
     </div>
     <!-- 顶部导航栏模式 -->
@@ -41,6 +41,7 @@
             :type="collapsed ? 'menu-fold' : 'menu-unfold'"
             @click="toggle"></a-icon>
         </div>
+        
         <user-menu class="header-index-right" :theme="theme" :style="topMenuStyle.headerIndexRight"/>
       </div>
     </div>
@@ -49,11 +50,11 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import UserMenu from '../tools/UserMenu'
   import SMenu from '../menu/'
   import Logo from '../tools/Logo'
   import { mixin } from '@/utils/mixin.js'
-
   export default {
     name: 'GlobalHeader',
     components: {
@@ -125,6 +126,30 @@
       //update-end--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
     },
     methods: {
+      handleLogout() {
+        const that = this
+
+        this.$confirm({
+          title: '提示',
+          content: '真的要注销登录吗 ?',
+          onOk() {
+            // return that.Logout({}).then(() => {
+              Vue.ls.remove(ACCESS_TOKEN)
+              // update-begin author:scott date:20211223 for:【JTC-198】退出登录体验不好
+              // that.$router.push({ path: '/user/login' });
+              window.location.reload()
+              // update-end author:scott date:20211223 for:【JTC-198】退出登录体验不好
+            // }).catch(err => {
+            //   that.$message.error({
+            //     title: '错误',
+            //     description: err.message
+            //   })
+            // })
+          },
+          onCancel() {
+          },
+        });
+      },
       handleScroll() {
         if (this.autoHideHeader) {
           let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop

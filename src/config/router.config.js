@@ -402,6 +402,12 @@ export const constantRouterMap = [
         component: () => import('@/views/pdc/baseData/Classes')
       },
       { 
+        meta: {title: '计量仪基本信息', icon: 'dashboard'},
+        path: '/pdc/baseData/Meter',
+        name: 'Meter',
+        component: () => import('@/views/pdc/baseData/Meter')
+      },
+      { 
         meta: {title: '绑定关系', icon: 'dashboard'},
         path: '/pdc/baseData/BindingRelation',
         name: 'BindingRelation',
@@ -412,6 +418,12 @@ export const constantRouterMap = [
         path: '/pdc/baseData/ElectricityConsumption',
         name: 'ElectricityConsumption',
         component: () => import('@/views/pdc/baseData/ElectricityConsumption')
+      },
+      { 
+        meta: {title: '皮带实时数据', icon: 'dashboard'},
+        path: '/pdc/EquipmentRawData/BeltData',
+        name: 'BeltData',
+        component: () => import('@/views/pdc/EquipmentRawData/BeltData')
       },
       { 
         meta: {title: '皮带实时产量', icon: 'dashboard'},

@@ -6,66 +6,26 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :md="6" :sm="8">
-            <a-form-item label="设备名称">
-              <a-input placeholder="请输入设备名称" v-model="queryParam.mineName"></a-input>
+            <a-form-item label="分公司名称">
+              <a-select  placeholder="请选择分公司名称" v-model="queryParams.parentCode" >
+                <a-select-option v-for="(item, index) in companyOptions" :key="index" :value="item.key">
+                    {{ item.value}}
+                </a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="8">
-            <a-form-item label="设备编号">
-              <a-input placeholder="请输入设备编号" v-model="queryParam.parentCode"></a-input>
-            </a-form-item>
-          </a-col>
-          <template v-if="toggleSearchStatus">
-            <!-- <a-col :md="6" :sm="8">
-              <a-form-item label="接收人">
-                <a-input placeholder="请输入接收人" v-model="queryParam.esReceiver"></a-input>
-              </a-form-item>
-            </a-col> -->
-          </template>
           <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>
             </span>
           </a-col>
-
         </a-row>
       </a-form>
     </div>
 
-    <!-- 操作按钮区域 -->
-    <div class="table-operator">
-      <a-button @click="handleAdd" v-show="show" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" v-show="show" icon="download" @click="handleExportXls('消息')">导出</a-button>
-      <a-upload v-show="show" name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl"
-                @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
-      <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel">
-            <a-icon type="delete"/>
-            删除
-          </a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作
-          <a-icon type="down"/>
-        </a-button>
-      </a-dropdown>
-    </div>
-
     <!-- table区域-begin -->
     <div>
-      <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
-        selectedRowKeys.length }}</a>项
-        <a style="margin-left: 24px" @click="onClearSelected">清空</a>
-      </div>
-
       <a-table
         ref="table"
         size="middle"
@@ -73,19 +33,18 @@
         rowKey="id"
         :columns="columns"
         :dataSource="dataSource"
-        :pagination="ipagination"
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
         <!-- 字符串超长截取省略号显示-->
-        <span slot="esContent" slot-scope="text">
-          <j-ellipsis :value="text" :length="10" />
+        <span slot="appId" @click="handleDetail(record)" slot-scope="text, record" style="color: blue;text-decoration: underline;cursor: pointer;">
+          {{ text }}
         </span>
 
         <span slot="action" slot-scope="text, record">
           <a href="javascript:;" @click="handleDetail(record)">详情</a>
-          <a-divider type="vertical"/>
+          <!-- <a-divider type="vertical"/>
           <a-dropdown>
             <a class="ant-dropdown-link">更多<a-icon type="down"/></a>
             <a-menu slot="overlay">
@@ -98,7 +57,7 @@
                 </a-popconfirm>
               </a-menu-item>
             </a-menu>
-          </a-dropdown>
+          </a-dropdown> -->
         </span>
 
       </a-table>
@@ -106,27 +65,28 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <transmission-equipment-modal ref="modalForm" @ok="modalFormOk"></transmission-equipment-modal>
+    <belt-data-model ref="dialog"></belt-data-model>
   </a-card>
 </template>
 
 <script>
-  import TransmissionEquipmentModal from './modules/TransmissionEquipmentModal'
+import { filterObj } from '@/utils/util';
+  import BeltDataModel from './modules/BeltDataModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
-
+  import { deleteAction, postAction,downFile,getFileAccessHttpUrl } from '@/api/manage'
   export default {
-    name: "TransmissionEquipment",
+    name: "Belt",
     mixins: [JeecgListMixin],
     components: {
       JEllipsis,
-      TransmissionEquipmentModal
+      BeltDataModel
     },
     data() {
       return {
-        description: '消息管理页面',
         // 新增修改按钮是否显示
         show: true,
+        companyOptions:[],
         // 表头
         columns: [
           {
@@ -140,24 +100,46 @@
             }
           },
           {
-            title: '设备类型',
+            title: '分公司名称',
             align: "center",
-            dataIndex: 'equipmentType'
+            dataIndex: 'parentName'
           },
+          {
+            title: '厂矿名称',
+            align: "center",
+            dataIndex: 'appId_',
+            scopedSlots: {customRender: 'appId'},
+          },
+         
           {
             title: '设备名称',
             align: "center",
-            dataIndex: 'equipmentName'
+            dataIndex: 'deviceId_'
           },
           {
-            title: '设备编号',
+            title: '当时产量(吨)',
             align: "center",
-            dataIndex: 'equipmentNumber'
+            dataIndex: 'outputHour'
           },
           {
-            title: '厂矿唯一值',
+            title: '当日产量(吨)',
             align: "center",
-            dataIndex: 'appId'
+            dataIndex: 'outputDay'
+          },
+          {
+            title: '当月产量(吨)',
+            align: "center",
+            dataIndex: 'outputMonth'
+          },
+          {
+            title: '当年产量(吨)',
+            align: "center",
+            dataIndex: 'outputYear'
+          },
+          {
+            title: '数据时间',
+            align: "center",
+            dataIndex: 'receiveTime'
           },
           {
             title: '操作',
@@ -167,11 +149,11 @@
           }
         ],
         url: {
-          list: "/sys/message/sysMessage/list",
-          delete: "/sys/message/sysMessage/delete",
-          deleteBatch: "/sys/message/sysMessage/deleteBatch",
-          exportXlsUrl: "sys/message/sysMessage/exportXls",
-          importExcelUrl: "sys/message/sysMessage/importExcel",
+          list: "/beltData/lastList",
+          company:'/minesApp/companyList'
+        },
+        queryParams: {
+          parentCode: ''
         },
       }
     },
@@ -180,7 +162,58 @@
         return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
       }
     },
-    methods: {}
+    created () {
+      this.getCompanyList()
+    },
+    methods: {
+      async getCompanyList () {
+        let res = await postAction(this.url.company)
+        this.companyOptions = res.data || []
+        this.queryParams.parentCode = res.data[1].key
+        this.loadData(1)
+      },
+      getQueryParams() {
+        var param = Object.assign(this.queryParams ,this.filters);
+        param.page = this.ipagination.current;
+        param.pageSize = this.ipagination.pageSize;
+        return param;
+      },
+      /** 查看按钮操作 */
+    handleDetail(row) {
+        this.$refs.dialog.queryParams.appId = row.appId
+        this.$refs.dialog.openDio()
+      },
+      loadData(arg) {
+        if (!this.queryParams.parentCode) return
+        if(!this.url.list){
+          this.$message.error("请设置url.list属性!")
+          return
+        }
+        //加载数据 若传入参数1则加载第一页的内容
+        if (arg === 1) {
+          this.ipagination.current = 1;
+        }
+        var params = this.getQueryParams();//查询条件
+        this.loading = true;
+        postAction(this.url.list, params).then((res) => {
+          if (res.code === '0000') {
+            //update-begin---author:zhangyafei    Date:20201118  for：适配不分页的数据列表------------
+            this.dataSource = res.data;
+            if(res.total)
+            {
+              this.ipagination.total = res.total;
+            }else{
+              this.ipagination.total = 0;
+            }
+            //update-end---author:zhangyafei    Date:20201118  for：适配不分页的数据列表------------
+          }else{
+            this.$message.warning(res.message)
+          }
+        }).finally(() => {
+          this.loading = false
+        })
+      },
+    }
   }
 </script>
 <style lang="less" scoped>

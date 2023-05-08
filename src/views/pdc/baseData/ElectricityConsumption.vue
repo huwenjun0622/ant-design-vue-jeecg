@@ -106,21 +106,21 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <electricity-consumption-model ref="modalForm" @ok="modalFormOk"></electricity-consumption-model>
+    <electricity-consumption-modal ref="modalForm" @ok="modalFormOk"></electricity-consumption-modal>
   </a-card>
 </template>
 
 <script>
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
-import ElectricityConsumptionModel from './modules/ElectricityConsumptionModel.vue';
+import ElectricityConsumptionModal from './modules/ElectricityConsumptionModal.vue';
 
   export default {
     name: "ElectricityConsumption",
     mixins: [JeecgListMixin],
     components: {
       JEllipsis,
-        ElectricityConsumptionModel
+        ElectricityConsumptionModal
     },
     data() {
       return {

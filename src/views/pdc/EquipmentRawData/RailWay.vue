@@ -101,21 +101,21 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <rail-way-model ref="modalForm" @ok="modalFormOk"></rail-way-model>
+    <rail-way-modal ref="modalForm" @ok="modalFormOk"></rail-way-modal>
   </a-card>
 </template>
 
 <script>
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
-import RailWayModel from './modules/RailWayModel.vue';
+import RailWayModal from './modules/RailWayModal.vue';
 
   export default {
     name: "Belt",
     mixins: [JeecgListMixin],
     components: {
       JEllipsis,
-        RailWayModel
+        RailWayModal
     },
     data() {
       return {
@@ -145,11 +145,7 @@ import RailWayModel from './modules/RailWayModel.vue';
             dataIndex: 'goodsName'
           },
          
-          {
-            title: '煤种名称',
-            align: "center",
-            dataIndex: 'goodsName'
-          },
+        
           {
             title: '发站名',
             align: "center",
@@ -190,6 +186,9 @@ import RailWayModel from './modules/RailWayModel.vue';
       importExcelUrl: function () {
         return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
       }
+    },
+    mounted(){
+      
     },
     methods: {}
   }

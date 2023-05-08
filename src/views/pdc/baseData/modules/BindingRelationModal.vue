@@ -15,46 +15,26 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           prop="instrumentId"
-          label="电表">
-          <j-dict-select-tag :triggerChange="true" dictCode="instrumentId" v-model="model.instrumentId" placeholder="请选择电表">
+          label="计量仪器唯一标识">
+          <j-dict-select-tag :triggerChange="true" dictCode="instrumentId" v-model="model.instrumentId" placeholder="请选择计量仪器唯一标识">
           </j-dict-select-tag>
         </a-form-model-item>
         <a-form-model-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          prop="electricityMinutes"
-          label="十五分钟用电量(kw·h)">
-          <a-input placeholder="请输入十五分钟用电量" v-model="model.electricityMinutes"/>
+          prop="deviceId"
+          label="输煤设备计量仪器编号">
+          <j-dict-select-tag :triggerChange="true" dictCode="deviceId" v-model="model.deviceId" placeholder="请选择">
+          </j-dict-select-tag>
         </a-form-model-item>
         <a-form-model-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          prop="electricityHour"
-          label="时累计用电量(kw·h)">
-          <a-input placeholder="请输入时累计用电量" v-model="model.electricityHour"/>
+          prop="isDel"
+          label="数据状态">
+          <j-dict-select-tag :triggerChange="true" dictCode="yesorno" v-model="model.isDel" placeholder="请选择">
+          </j-dict-select-tag>
         </a-form-model-item>
-        <a-form-model-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          prop="electricityDay"
-          label="日累计用电量(kw·h)">
-          <a-input placeholder="请输入日累计用电量" v-model="model.electricityDay"/>
-        </a-form-model-item>
-        <a-form-model-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          prop="electricityMonth"
-          label="月累计用电量(kw·h)">
-          <a-input placeholder="请输入时累计用电量" v-model="model.electricityMonth"/>
-        </a-form-model-item>
-        <a-form-model-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          prop="electricityYear"
-          label="年累计用电量(kw·h)">
-          <a-input placeholder="请输入年累计用电量" v-model="model.electricityYear"/>
-        </a-form-model-item>
-        
       </a-form-model>
     </a-spin>
   </a-modal>
@@ -85,9 +65,8 @@
         validatorRules: {},
         disableSubmit: false,
         validatorRules:{
-          equipmentType:[{ required: true, message: '请选择设备类型!' }],
-          equipmentName:[{ required: true, message: '请输入设备名称!' }],
-          equipmentNumber: [{ required: true, message: '请输入设备编号!' }]
+          instrumentId:[{ required: true, message: '请选择计量仪器!' }],
+          deviceId:[{ required: true, message: '请选择输煤设备计量仪器编号!' }]
         },
         url: {
           add: "/sys/message/sysMessage/add",
@@ -98,10 +77,10 @@
     watch: {
     },
     mounted() {
-      
+
     },
     methods: {
-      add() {
+      add() { 
         this.edit();
       },
       edit(record) {

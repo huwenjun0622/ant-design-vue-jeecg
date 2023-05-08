@@ -19,11 +19,13 @@ const whiteList = [
   '/pdc/EquipmentRawData/RailWay', 
   '/pdc/EquipmentRawData/HighWay', 
   '/pdc/EquipmentRawData/Belt', 
+  '/pdc/EquipmentRawData/BeltData', 
   '/pdc/baseData/ElectricityConsumption', 
   '/pdc/baseData/FactoryAndMine',
   '/pdc/baseData/TransmissionEquipment', 
   '/pdc/baseData/Classes', 
-  '/pdc/baseData/BindingRelation'
+  '/pdc/baseData/BindingRelation',
+  '/pdc/baseData/Meter'
 ]
 whiteList.push(OAUTH2_LOGIN_PAGE_PATH)
 
@@ -42,9 +44,8 @@ router.beforeEach((to, from, next) => {
 
 
   if (Vue.ls.get(ACCESS_TOKEN)) {
-    console.log(111)
     /* has token */
-    if (to.path === '/user/login' || to.path === OAUTH2_LOGIN_PAGE_PATH) {
+    if (to.path === '/pdc/EquipmentRawData/BeltData' || to.path === OAUTH2_LOGIN_PAGE_PATH) {
       next({ path: INDEX_MAIN_PAGE_PATH })
       NProgress.done()
     } else {
@@ -86,11 +87,12 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    console.log(111)
+    // next('/user/login')
+    // NProgress.done()
     if (whiteList.indexOf(to.path) !== -1) {
       // 在免登录白名单，如果进入的页面是login页面并且当前是OAuth2app环境，就进入OAuth2登录页面
-      if (to.path === '/user/login' && isOAuth2AppEnv()) {
-        next({path: OAUTH2_LOGIN_PAGE_PATH})
+      if (to.path === '/user/login') {
+        next()
       } else {
         // 在免登录白名单，直接进入
         next()
@@ -98,7 +100,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     } else {
       // 如果当前是在OAuth2APP环境，就跳转到OAuth2登录页面
-      let path = isOAuth2AppEnv() ? OAUTH2_LOGIN_PAGE_PATH : '/user/login'
+      let path = isOAuth2AppEnv() ? OAUTH2_LOGIN_PAGE_PATH : '/pdc/EquipmentRawData/BeltData'
       next({ path: path, query: { redirect: to.fullPath } })
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }

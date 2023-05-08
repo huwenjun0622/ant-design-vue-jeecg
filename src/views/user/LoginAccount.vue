@@ -21,8 +21,9 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="8" style="text-align: right">
-            <img v-if="requestCodeSuccess" style="margin-top: 2px;" :src="randCodeImage" @click="handleChangeCheckCode"/>
-            <img v-else style="margin-top: 2px;" src="../../assets/checkcode.png" @click="handleChangeCheckCode"/>
+            <Verify width="100%" height="100%" :codeLength="4" @success="alert('success')" @error="alert('error')" :type="1"></Verify>
+            <!-- <img v-if="requestCodeSuccess" style="margin-top: 2px;" :src="randCodeImage" @click="handleChangeCheckCode"/>
+            <img v-else style="margin-top: 2px;" src="../../assets/checkcode.png" @click="handleChangeCheckCode"/> -->
           </a-col>
         </a-row>
       </a-form-model>
@@ -33,9 +34,12 @@
   import { getAction } from '@/api/manage'
   import Vue from 'vue'
   import { mapActions } from 'vuex'
-
+  import Verify from 'vue2-verify'
   export default {
     name: 'LoginAccount',
+    components: {
+      Verify
+    },
     data(){
       return {
         requestCodeSuccess: false,
@@ -43,10 +47,20 @@
         currdatetime: '',
         loginType: 0,
         model:{
-          username: 'admin',
-          password: '123456',
+          username: '',
+          password: '',
           inputCode: ''
         },
+        loginList: [
+          {
+            username: 'admin',
+            password: '123456'
+          },
+          {
+            username: 'belt',
+            password: 'belt@123!'
+          }
+        ],
         validatorRules:{
           username: [
             { required: true, message: '请输入用户名!' },
@@ -133,6 +147,7 @@
               remember_me: rememberMe,
             }
             console.log("登录参数", loginParams)
+
             this.Login(loginParams).then((res) => {
               this.$emit('success', res.result)
             }).catch((err) => {

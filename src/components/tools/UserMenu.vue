@@ -101,7 +101,7 @@
   import { getFileAccessHttpUrl,getAction } from "@/api/manage"
   import Vue from 'vue'
   import { UI_CACHE_DB_DICT_DATA } from "@/store/mutation-types"
-
+  
   export default {
     name: "UserMenu",
     mixins: [mixinDevice],

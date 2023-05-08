@@ -14,26 +14,55 @@
         <a-form-model-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          prop="instrumentId"
-          label="计量仪器唯一标识">
-          <j-dict-select-tag :triggerChange="true" dictCode="instrumentId" v-model="model.instrumentId" placeholder="请选择计量仪器唯一标识">
-          </j-dict-select-tag>
+          prop="className"
+          label="班次名称">
+          <a-input placeholder="请输入班次名称" v-model="model.className"/>
         </a-form-model-item>
         <a-form-model-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          prop="deviceId"
-          label="输煤设备计量仪器编号">
-          <j-dict-select-tag :triggerChange="true" dictCode="deviceId" v-model="model.deviceId" placeholder="请选择">
-          </j-dict-select-tag>
+          prop="startTime"
+          label="开始时间">
+          <a-time-picker class="width100" placeholder="请输入开始时间" v-model="model.startTime"/>
         </a-form-model-item>
         <a-form-model-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          prop="isDel"
-          label="数据状态">
-          <j-dict-select-tag :triggerChange="true" dictCode="yesorno" v-model="model.isDel" placeholder="请选择">
-          </j-dict-select-tag>
+          prop="endTime"
+          label="结束时间">
+          <a-time-picker  class="width100"  placeholder="请输入结束时间" v-model="model.endTime"/>
+        </a-form-model-item>
+        <a-form-model-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="设备">
+          <a-input placeholder="请输入设备" v-model="model.deviceId"/>
+        </a-form-model-item>
+        <a-form-model-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="标识">
+          <a-input placeholder="请输入标识" v-model="model.flag"/>
+        </a-form-model-item>
+        <a-form-model-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="顺序号">
+          <a-input placeholder="请输入顺序号" v-model="model.flag"/>
+        </a-form-model-item>
+        <a-form-model-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          prop="remarks"
+          label="描述">
+          <a-input placeholder="请输入描述" v-model="model.sortNum"/>
+        </a-form-model-item>
+        <a-form-model-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          prop="isFirst"
+          label="是否首班">
+          <a-input placeholder="请选择是否首班" v-model="model.isFirst"/>
         </a-form-model-item>
       </a-form-model>
     </a-spin>
@@ -65,9 +94,9 @@
         validatorRules: {},
         disableSubmit: false,
         validatorRules:{
-          equipmentType:[{ required: true, message: '请选择设备类型!' }],
-          equipmentName:[{ required: true, message: '请输入设备名称!' }],
-          equipmentNumber: [{ required: true, message: '请输入设备编号!' }]
+          className:[{ required: true, message: '请输入班次名称!' }],
+          startTime:[{ required: true, message: '请选择开始时间!' }],
+          endTime: [{ required: true, message: '请选择结束时间!' }]
         },
         url: {
           add: "/sys/message/sysMessage/add",

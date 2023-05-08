@@ -136,6 +136,9 @@ service.interceptors.request.use(config => {
       }
     }
   }
+  // if(config.method=='post'){
+  //   // config.params = 
+  // }
   return config
 },(error) => {
   return Promise.reject(error)

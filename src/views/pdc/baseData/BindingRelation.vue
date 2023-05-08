@@ -91,21 +91,21 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <binding-relation-model ref="modalForm" @ok="modalFormOk"></binding-relation-model>
+    <binding-relation-modal ref="modalForm" @ok="modalFormOk"></binding-relation-modal>
   </a-card>
 </template>
 
 <script>
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
-import BindingRelationModel from './modules/BindingRelationModel.vue';
+import BindingRelationModal from './modules/BindingRelationModal.vue';
 
   export default {
     name: "BindingRelation",
     mixins: [JeecgListMixin],
     components: {
       JEllipsis,
-      BindingRelationModel
+      BindingRelationModal
     },
     data() {
       return {

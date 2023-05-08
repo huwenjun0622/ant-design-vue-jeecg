@@ -106,7 +106,7 @@
 </template>
 
 <script>
-  import BeltModel from './modules/BeltModel'
+  import BeltModal from './modules/BeltModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
 
@@ -115,7 +115,7 @@
     mixins: [JeecgListMixin],
     components: {
       JEllipsis,
-      BeltModel
+      BeltModal
     },
     data() {
       return {

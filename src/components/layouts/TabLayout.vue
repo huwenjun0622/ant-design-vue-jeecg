@@ -43,7 +43,7 @@
   import { CACHE_INCLUDED_ROUTES } from '@/store/mutation-types'
   import registerApps from "@/qiankun";
 
-  const indexKey = '/dashboard/analysis'
+  const indexKey = '/pdc/EquipmentRawData/BeltData'
 
   export default {
     name: 'TabLayout',
@@ -170,7 +170,7 @@
           fullPath: indexKey,
           meta: {
             icon: 'dashboard',
-            title: '首页'
+            title: '皮带实时数据'
           }
         })
         this.linkList.splice(0, 0, indexKey)
@@ -183,7 +183,7 @@
        * @param title 要修改的新标题
        */
       changeTitle(title) {
-        let projectTitle = "Jeecg-Boot 企业级低代码平台"
+        let projectTitle = "皮带称项目平台"
         // 首页特殊处理
         if (this.$route.path === indexKey) {
           document.title = projectTitle

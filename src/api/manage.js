@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { axios } from '@/utils/request'
 import signMd5Utils from '@/utils/encryption/signMd5Utils'
-
+import * as qs from 'qs'
 const api = {
   user: '/mock/api/user',
   role: '/mock/api/role',
@@ -12,18 +12,22 @@ const api = {
 
 export default api
 
+
+
+
 //post
 export function postAction(url,parameter) {
   let sign = signMd5Utils.getSign(url, parameter);
   //将签名和时间戳，添加在请求接口 Header
   // update-begin--author:taoyan---date:20220421--for: VUEN-410【签名改造】 X-TIMESTAMP牵扯
-  let signHeader = {"X-Sign": sign,"X-TIMESTAMP": signMd5Utils.getTimestamp()};
+  let signHeader = {"X-Sign": sign,"X-TIMESTAMP": signMd5Utils.getTimestamp(),'Content-Type': 'application/x-www-form-urlencoded'};
+  // let signHeader = {'Content-Type': 'application/x-www-form-urlencoded'};
   // update-end--author:taoyan---date:20220421--for: VUEN-410【签名改造】 X-TIMESTAMP牵扯
 
   return axios({
     url: url,
     method:'post' ,
-    data: parameter,
+    data: qs.stringify(parameter),
     headers: signHeader
   })
 }
