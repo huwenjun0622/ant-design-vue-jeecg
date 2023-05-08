@@ -2,12 +2,12 @@
     <div>
       <a-form-model ref="form" :model="model" :rules="validatorRules">
         <a-form-model-item required prop="username">
-          <a-input v-model="model.username" size="large" placeholder="请输入帐户名 / admin">
+          <a-input v-model="model.username" size="large" placeholder="请输入帐户名">
             <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
           </a-input>
         </a-form-model-item>
         <a-form-model-item required prop="password">
-          <a-input v-model="model.password" size="large" type="password" autocomplete="false" placeholder="请输入密码 / 123456">
+          <a-input v-model="model.password" size="large" type="password" autocomplete="false" placeholder="请输入密码">
             <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
           </a-input>
         </a-form-model-item>
@@ -21,7 +21,7 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="8" style="text-align: right">
-            <Verify width="100%" height="100%" :codeLength="4" @success="alert('success')" @error="alert('error')" :type="1"></Verify>
+            <Verify width="100%" height="40px" ref="verify" fontSize="22px" :codeLength="4" :type="1"></Verify>
             <!-- <img v-if="requestCodeSuccess" style="margin-top: 2px;" :src="randCodeImage" @click="handleChangeCheckCode"/>
             <img v-else style="margin-top: 2px;" src="../../assets/checkcode.png" @click="handleChangeCheckCode"/> -->
           </a-col>
@@ -77,25 +77,15 @@
       }
     },
     created() {
-      this.handleChangeCheckCode();
+      // refresh
+      
+      // this.handleChangeCheckCode();
     },
     methods:{
       ...mapActions(['Login']),
       /**刷新验证码*/
       handleChangeCheckCode(){
-        this.currdatetime = new Date().getTime();
-        this.model.inputCode = ''
-        getAction(`/sys/randomImage/${this.currdatetime}`).then(res=>{
-          if(res.success){
-            this.randCodeImage = res.result
-            this.requestCodeSuccess=true
-          }else{
-            this.$message.error(res.message)
-            this.requestCodeSuccess=false
-          }
-        }).catch(()=>{
-          this.requestCodeSuccess=false
-        })
+        this.$refs.verify.$refs.instance.refresh()
       },
       // 判断登录类型
       handleUsernameOrEmail (rule, value, callback) {
@@ -137,27 +127,33 @@
       },
       //账号密码登录
       handleLogin(rememberMe){
+        
+        // codeChose
+        let code = this.$refs.verify.$refs.instance.codeChose
+        let username = this.model.username
+        let password = this.model.password
         this.validateFields([ 'username', 'password', 'inputCode' ], (err)=>{
           if(!err){
             let loginParams = {
-              username: this.model.username,
-              password: this.model.password,
+              username: username,
+              password: password,
               captcha: this.model.inputCode,
               checkKey: this.currdatetime,
               remember_me: rememberMe,
             }
-            console.log("登录参数", loginParams)
-
-            this.Login(loginParams).then((res) => {
-              this.$emit('success', res.result)
-            }).catch((err) => {
-              //update-begin-author: taoyan date:20220425 for: 登录页面，当输入验证码错误时，验证码图片要刷新一下，而不是保持旧的验证码图片不变 #41
-              if(err && err.code===412){
-                this.handleChangeCheckCode();
-              }
-              //update-end-author: taoyan date:20220425 for: 登录页面，当输入验证码错误时，验证码图片要刷新一下，而不是保持旧的验证码图片不变 #41
-              this.$emit('fail', err)
-            });
+            if (code.toUpperCase() !== this.model.inputCode.toUpperCase()) {
+                this.$message.error('验证码错误')
+                this.$emit('validateFail')
+                return
+            }
+            let obj = this.loginList.filter(e =>  e.username == username && e.password == password)
+            if (obj.length > 0 ) {
+              
+              this.$emit('success', '登陆成功')
+            } else {
+              this.handleChangeCheckCode();
+              this.$emit('fail', {message: '账号密码错误'})
+            }
           }else{
             this.$emit('validateFail')
           }

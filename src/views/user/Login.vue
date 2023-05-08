@@ -107,7 +107,8 @@ export default {
       },
       // 登录后台成功
       requestSuccess(loginResult){
-        this.$refs.loginSelect.show(loginResult)
+        this.loginSuccess()
+        // this.$refs.loginSelect.show(loginResult)
       },
       //登录后台失败
       requestFailed (err) {
@@ -128,9 +129,11 @@ export default {
       },
       //登录成功
       loginSuccess () {
+        Vue.ls.set(ACCESS_TOKEN, '1111')
         this.$router.push({ path: "/pdc/EquipmentRawData/BeltData" }).catch(()=>{
           console.log('登录跳转首页出错,这个错误从哪里来的')
         })
+        
         this.$notification.success({
           message: '欢迎',
           description: `${timeFix()}，欢迎回来`,

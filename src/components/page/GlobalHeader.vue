@@ -5,22 +5,24 @@
     :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
     :style="{ padding: '0' }">
 
-    <div v-if="mode === 'sidemenu'" class="header" :class="theme">
-      <a-icon
-        v-if="device==='mobile'"
-        class="trigger"
-        :type="collapsed ? 'menu-fold' : 'menu-unfold'"
-        @click="toggle"></a-icon>
-      <a-icon
-        v-else
-        class="trigger"
-        :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-        @click="toggle"/>
+    <div v-if="mode === 'sidemenu'" class="header df" :class="theme">
+      <div>
+        <a-icon
+          v-if="device==='mobile'"
+          class="trigger"
+          :type="collapsed ? 'menu-fold' : 'menu-unfold'"
+          @click="toggle"></a-icon>
+        <a-icon
+          v-else
+          class="trigger"
+          :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+          @click="toggle"/>
 
-      <span v-if="device === 'desktop'">欢迎进入 皮带秤项目 平台</span>
-      <span v-else>皮带秤项目</span>
+        <span v-if="device === 'desktop'">欢迎进入 皮带秤项目 平台</span>
+        <span v-else>皮带秤项目</span>
+      </div>
       <a-button @click="handleLogout">退出登陆</a-button>
-      <user-menu :theme="theme"/>
+      <!-- <user-menu :theme="theme"></user-menu> -->
     </div>
     <!-- 顶部导航栏模式 -->
     <div v-else :class="['top-nav-header-index', theme]">
@@ -55,6 +57,7 @@
   import SMenu from '../menu/'
   import Logo from '../tools/Logo'
   import { mixin } from '@/utils/mixin.js'
+  import { ACCESS_TOKEN } from '@/store/mutation-types'
   export default {
     name: 'GlobalHeader',
     components: {
@@ -136,8 +139,8 @@
             // return that.Logout({}).then(() => {
               Vue.ls.remove(ACCESS_TOKEN)
               // update-begin author:scott date:20211223 for:【JTC-198】退出登录体验不好
-              // that.$router.push({ path: '/user/login' });
-              window.location.reload()
+              that.$router.push({ path: '/user/login' });
+              // window.location.reload()
               // update-end author:scott date:20211223 for:【JTC-198】退出登录体验不好
             // }).catch(err => {
             //   that.$message.error({
@@ -226,7 +229,9 @@
       height: @height;
       background-color: @primary-color;
       transition: background 300ms;
-
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       /* dark 样式 */
       &.dark {
         color: #000000;

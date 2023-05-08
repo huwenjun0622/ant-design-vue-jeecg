@@ -34,7 +34,6 @@
         :columns="columns"
         :dataSource="dataSource"
         :loading="loading"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
         <!-- 字符串超长截取省略号显示-->
@@ -74,7 +73,7 @@ import { filterObj } from '@/utils/util';
   import BeltDataModel from './modules/BeltDataModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
-  import { deleteAction, postAction,downFile,getFileAccessHttpUrl } from '@/api/manage'
+  import { postAction } from '@/api/manage'
   export default {
     name: "Belt",
     mixins: [JeecgListMixin],
