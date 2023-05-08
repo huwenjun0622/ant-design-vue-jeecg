@@ -154,6 +154,7 @@ import { filterObj } from '@/utils/util';
         queryParams: {
           parentCode: ''
         },
+        timer: '',
       }
     },
     computed: {
@@ -163,6 +164,11 @@ import { filterObj } from '@/utils/util';
     },
     created () {
       this.getCompanyList()
+      if(this.timer) clearInterval(this.timer)
+      // 1000 * 60 * 5
+      this.timer = setInterval(() => {
+        this.loadData()
+      }, 1000 * 60 * 5)
     },
     methods: {
       async getCompanyList () {
@@ -179,7 +185,7 @@ import { filterObj } from '@/utils/util';
       },
       /** 查看按钮操作 */
     handleDetail(row) {
-        this.$refs.dialog.queryParams.appId = row.appId
+        this.$refs.dialog.queryParam.appId = row.appId
         this.$refs.dialog.openDio()
       },
       loadData(arg) {
@@ -212,6 +218,10 @@ import { filterObj } from '@/utils/util';
           this.loading = false
         })
       },
+    },
+    beforeDestroy () {
+      clearInterval(this.timer)
+      this.timer = ''
     }
   }
 </script>

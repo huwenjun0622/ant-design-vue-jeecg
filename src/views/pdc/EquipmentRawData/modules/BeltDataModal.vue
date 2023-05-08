@@ -4,15 +4,15 @@
       :title="title"
       :width="1200"
       @cancel="handleCancel"
-      cancelText="取消">
+      cancelText="关 闭">
 
     <!-- 查询区域 -->
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :md="6" :sm="8">
-            <a-form-item label="设备名称">
-              <a-select  placeholder="请选择设备名称" v-model="queryParams.deviceId" >
+            <a-form-item label="设备名称" prop="deviceId">
+              <a-select  placeholder="请选择设备名称" v-model="queryParam.deviceId" >
                 <a-select-option v-for="(item, index) in deviceOptions" :key="index" :value="item.deviceId">
                     {{ item.equipmentName}}
                 </a-select-option>
@@ -107,11 +107,11 @@
           list: "/beltData/page",
           device:'/minesApp/getDeviceListByAppId'
         },
-        queryParams: {
+        queryParam: {
           page: 1,
           pageSize: 10,
-          parentCode: '',
-          appId: ''
+          appId: '',
+          deviceId: ''
         },
         ipagination:{
           current: 1,
@@ -134,7 +134,8 @@
     methods: {
       openDio () {
         this.visible = true;
-        this.queryParams.page = 1
+        this.dataSource = []
+        this.queryParam.page = 1
         this.getDeviceList()
       },
       add() {
@@ -150,20 +151,20 @@
       },
       async getDeviceList () {
         let param = {
-          appId: this.queryParams.appId
+          appId: this.queryParam.appId
         }
         let res = await postAction(this.url.device, param)
         this.deviceOptions = res.data || []
         this.loadData(1)
       },
       getQueryParams() {
-        var param = Object.assign(this.queryParams ,this.filters);
+        var param = Object.assign(this.queryParam ,this.filters);
         param.page = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
         return param;
       },
       loadData(arg) {
-        if (!this.queryParams.appId) return
+        if (!this.queryParam.appId) return
         if(!this.url.list){
           this.$message.error("请设置url.list属性!")
           return

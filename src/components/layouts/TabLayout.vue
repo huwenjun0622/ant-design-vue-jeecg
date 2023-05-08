@@ -183,7 +183,7 @@
        * @param title 要修改的新标题
        */
       changeTitle(title) {
-        let projectTitle = "皮带称项目平台"
+        let projectTitle = "皮带秤项目统计平台"
         // 首页特殊处理
         if (this.$route.path === indexKey) {
           document.title = projectTitle
