@@ -136,6 +136,7 @@
         this.visible = true;
         this.dataSource = []
         this.queryParam.page = 1
+        this.queryParam.deviceId = ''
         this.getDeviceList()
       },
       add() {

@@ -168,13 +168,13 @@ import { filterObj } from '@/utils/util';
       // 1000 * 60 * 5
       this.timer = setInterval(() => {
         this.loadData()
-      }, 1000 * 60 * 5)
+      }, 1000 * 60 * 5 )
     },
     methods: {
       async getCompanyList () {
         let res = await postAction(this.url.company)
         this.companyOptions = res.data || []
-        this.queryParams.parentCode = res.data[1].key
+        this.queryParams.parentCode = res.data[0].key
         this.loadData(1)
       },
       getQueryParams() {
