@@ -34,6 +34,7 @@
         :columns="columns"
         :dataSource="dataSource"
         :loading="loading"
+        :pagination="false"
         @change="handleTableChange">
 
         <!-- 字符串超长截取省略号显示-->
