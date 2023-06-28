@@ -11,9 +11,17 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :md="6" :sm="8">
-            <a-form-item label="设备名称" prop="deviceId">
+            
+            <a-form-item label="洗选类型" prop="deviceId" v-if="appType == 2">
               <a-select  placeholder="请选择设备名称" v-model="queryParam.deviceId" >
                 <a-select-option v-for="(item, index) in deviceOptions" :key="index" :value="item.deviceId">
+                    {{ item.equipmentName}}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="设备名称" prop="equipmentNumber" v-else>
+              <a-select  placeholder="请选择设备名称" v-model="queryParam.equipmentNumber" >
+                <a-select-option v-for="(item, index) in deviceOptions" :key="index" :value="item.equipmentNumber">
                     {{ item.equipmentName}}
                 </a-select-option>
               </a-select>
@@ -40,7 +48,6 @@
         :pagination="ipagination"
         :loading="loading"
         @change="handleTableChange">
-
       </a-table>
     </div>
   </a-modal>
@@ -60,6 +67,11 @@
         // 新增修改按钮是否显示
         show: true,
         deviceOptions:[],
+        addobj: {
+          title: '洗选类型',
+          align: "center",
+          dataIndex: 'deviceId_'
+        },
         // 表头
         columns: [
           {
@@ -75,7 +87,7 @@
           {
             title: '设备名称',
             align: "center",
-            dataIndex: 'deviceId_'
+            dataIndex: 'equipmentNumber'
           },
           
           {
@@ -139,6 +151,15 @@
         this.dataSource = []
         this.queryParam.page = 1
         this.queryParam.deviceId = ''
+        if (this.appType == 2) {
+          this.columns.splice(1, 0, this.addobj)
+        }
+        this.getDeviceList()
+      },
+      searchReset () {
+        this.dataSource = []
+        this.queryParam.page = 1
+        this.queryParam.deviceId = ''
         this.getDeviceList()
       },
       add() {
@@ -150,6 +171,9 @@
       },
       close() {
         this.$emit('close');
+        if (this.appType == 2) {
+          this.columns.splice(1, 1)
+        }
         this.visible = false;
       },
       async getDeviceList () {

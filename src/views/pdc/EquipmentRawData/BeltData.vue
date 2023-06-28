@@ -41,7 +41,6 @@
         <span slot="appId" @click="handleDetail(record)" slot-scope="text, record" style="color: blue;text-decoration: underline;cursor: pointer;">
           {{ text }}
         </span>
-
         <span slot="action" slot-scope="text, record">
           <a href="javascript:;" @click="handleDetail(record)">详情</a>
           <!-- <a-divider type="vertical"/>
@@ -70,7 +69,6 @@
 </template>
 
 <script>
-import { filterObj } from '@/utils/util';
   import BeltDataModel from './modules/BeltDataModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from "@/components/jeecg/JEllipsis";
@@ -82,6 +80,7 @@ import { filterObj } from '@/utils/util';
       JEllipsis,
       BeltDataModel
     },
+    
     data() {
       return {
         // 新增修改按钮是否显示
@@ -114,7 +113,7 @@ import { filterObj } from '@/utils/util';
           {
             title: '设备名称',
             align: "center",
-            dataIndex: 'deviceId_'
+            dataIndex: 'equipmentNumber'
           },
           {
             title: '当时产量(吨)',
