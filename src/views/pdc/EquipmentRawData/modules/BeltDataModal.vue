@@ -162,6 +162,7 @@
         this.queryParam.deviceId = ''
         this.getDeviceList()
       },
+      
       add() {
         this.edit();
       },
