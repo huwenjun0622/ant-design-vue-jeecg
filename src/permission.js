@@ -49,9 +49,20 @@ router.beforeEach((to, from, next) => {
       next()
       NProgress.done()
     } else {
-      if (to.path !== '/pdc/EquipmentRawData/BeltData') {
+      if(store.getters.permissionList.length === 0) {
         next('/pdc/EquipmentRawData/BeltData')
+      } else {
+        let obj = store.getters.permissionList.filter(e => e.path === to.path)[0]
+        if (obj) {
+          next()
+        } else {
+          next('/pdc/EquipmentRawData/BeltData')
+        }
       }
+      console.log(store.getters.permissionList)
+      // if (to.path !== '/pdc/EquipmentRawData/BeltData') {
+        // next()
+      // }
       // next('/pdc/EquipmentRawData/BeltData')
       // if (store.getters.permissionList.length === 0) {
       //   store.dispatch('GetPermissionList').then(res => {

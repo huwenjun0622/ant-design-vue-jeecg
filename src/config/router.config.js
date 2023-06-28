@@ -420,10 +420,16 @@ export const constantRouterMap = [
         component: () => import('@/views/pdc/baseData/ElectricityConsumption')
       },
       { 
-        meta: {title: '皮带实时数据', icon: 'dashboard'},
+        meta: {title: '矿点皮带实时数据', icon: 'dashboard'},
         path: '/pdc/EquipmentRawData/BeltData',
         name: 'BeltData',
         component: () => import('@/views/pdc/EquipmentRawData/BeltData')
+      },
+      { 
+        meta: {title: '选煤厂皮带实时数据', icon: 'dashboard'},
+        path: '/pdc/EquipmentRawData/FactoryBeltData',
+        name: 'FactoryBeltData',
+        component: () => import('@/views/pdc/EquipmentRawData/FactoryBeltData')
       },
       { 
         meta: {title: '皮带实时产量', icon: 'dashboard'},
@@ -434,13 +440,13 @@ export const constantRouterMap = [
       { 
         meta: {title: '公路地磅实时数据', icon: 'dashboard'},
         path: '/pdc/EquipmentRawData/HighWay',
-        name: 'Belt',
+        name: 'HighWay',
         component: () => import('@/views/pdc/EquipmentRawData/HighWay')
       },
       { 
         meta: {title: '铁路轨道衡实时数据', icon: 'dashboard'},
         path: '/pdc/EquipmentRawData/RailWay',
-        name: 'Belt',
+        name: 'RailWay',
         component: () => import('@/views/pdc/EquipmentRawData/RailWay')
       }
     ]

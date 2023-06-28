@@ -109,7 +109,7 @@ module.exports = {
           issues/3462 很多人此处做了配置，导致刷新前端404问题，请一定注意*/
       '/api': {
         // target: 'http://192.168.137.1:8049',
-        target: 'http://172.16.149.62:8049',
+        target: 'http://172.16.94.123:8050',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

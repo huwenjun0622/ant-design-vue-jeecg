@@ -52,6 +52,7 @@
   export default {
     name: "BeltModel",
     mixins: [JeecgListMixin],
+    props: ['appType'],
     data() {
       return {
         title: "操作",
@@ -111,7 +112,8 @@
           page: 1,
           pageSize: 10,
           appId: '',
-          deviceId: ''
+          deviceId: '',
+          appType: this.appType
         },
         ipagination:{
           current: 1,

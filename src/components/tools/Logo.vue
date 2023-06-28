@@ -21,7 +21,7 @@
     props: {
       title: {
         type: String,
-        default: 'Jeecg-Boot Pro',
+        default: '皮带秤项目',
         required: false
       },
       showTitle: {

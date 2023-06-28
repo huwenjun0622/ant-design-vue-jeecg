@@ -1,7 +1,7 @@
 <template>
   <a-layout class="layout" :class="[device]">
 
-    <!-- <template v-if="layoutMode === 'sidemenu'">
+    <template v-if="layoutMode === 'sidemenu'">
       <a-drawer
         v-if="device === 'mobile'"
         :wrapClassName="'drawer-sider ' + navTheme"
@@ -31,9 +31,9 @@
         :theme="navTheme"
         :collapsed="collapsed"
         :collapsible="true"></side-menu>
-    </template> -->
+    </template>
     <!-- 下次优化这些代码 -->
-    <!-- <template v-else>
+    <template v-else>
       <a-drawer
         v-if="device === 'mobile'"
         :wrapClassName="'drawer-sider ' + navTheme"
@@ -52,7 +52,7 @@
           :collapsed="false"
           :collapsible="true"></side-menu>
       </a-drawer>
-    </template> -->
+    </template>
 
     <a-layout
       :class="[layoutMode, `content-width-${contentWidth}`]"
@@ -90,7 +90,7 @@
   import GlobalHeader from '@/components/page/GlobalHeader'
   import GlobalFooter from '@/components/page/GlobalFooter'
   import { triggerWindowResizeEvent } from '@/utils/util'
-  import { mapActions, mapState } from 'vuex'
+  import { mapActions, mapState, mapGetters } from 'vuex'
   import { mixin, mixinDevice } from '@/utils/mixin.js'
   // update-start---- author:os_chengtgen -- date:20190830 --  for:issues/463 -编译主题颜色已生效，但还一直转圈，显示主题 正在编译 ------
   // import SettingDrawer from '@/components/setting/SettingDrawer'
@@ -114,7 +114,18 @@
       return {
         collapsed: false,
         activeMenu:{},
-        menus: []
+        menus: [
+          // {
+          //   meta: {title: '皮带实时数据', icon: 'dashboard'},
+          //   path: '/pdc/EquipmentRawData/BeltData',
+          //   name: 'BeltData',
+          // },
+          // {
+          //   meta: {title: '选煤厂皮带实时数据', icon: 'dashboard'},
+          //   path: '/pdc/baseData/TransmissionEquipment',
+          //   name: 'TransmissionEquipment',
+          // }
+        ]
       }
     },
     computed: {
@@ -122,8 +133,15 @@
         // 主路由
         mainRouters: state => state.permission.addRouters,
         // 后台菜单
-        permissionMenuList: state => state.user.permissionList
-      })
+        // permissionMenuList: state => state.user.permissionList
+        // menus: state => state.user.permissionList
+      }),
+      // ...mapGetters({
+      //   permissionMenuList: state => {
+      //     console.log(state, 'state')
+      //     return []
+      //   }
+      // })
     },
     watch: {
       sidebarOpened(val) {
@@ -133,8 +151,8 @@
     created() {
       //--update-begin----author:scott---date:20190320------for:根据后台菜单配置，判断是否路由菜单字段，动态选择是否生成路由（为了支持参数URL菜单）------
       //this.menus = this.mainRouters.find((item) => item.path === '/').children;
-      this.menus = this.permissionMenuList
-      
+      this.menus = this.$store.getters.permissionList
+      // console.log(this.menus, this.$store.getters.permissionList);
       //--update-begin----author:liusq---date:20210223------for:关于测边菜单遮挡内容问题详细说明 #2255
       this.collapsed=!this.sidebarOpened;
       //--update-begin----author:liusq---date:20210223------for:关于测边菜单遮挡内容问题详细说明 #2255
@@ -179,6 +197,7 @@
       handleUpdateMenuTitle(value) {
         this.findMenuBykey(this.menus, value.path)
         this.activeMenu.meta.title = value.meta.title
+        console.log(value, this.activeMenu);
         this.$emit('dynamicRouterShow', value.path, this.activeMenu.meta.title)
       },
       // update-end-author:sunjianlei date:20210409 for: 修复动态功能测试菜单、带参数菜单标题错误、展开错误的问题
