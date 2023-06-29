@@ -141,6 +141,16 @@
       }
     },
     watch: {
+      appType: {
+        handler (v) {
+          if (v == 2) {
+            this.columns.splice(1, 0, this.addobj)
+          } else {
+            this.columns = this.$options.data().columns
+          }
+        },
+        immediate: true
+      },
     },
     mounted() {
       
@@ -151,9 +161,6 @@
         this.dataSource = []
         this.queryParam.page = 1
         this.queryParam.deviceId = ''
-        if (this.appType == 2) {
-          this.columns.splice(1, 0, this.addobj)
-        }
         this.getDeviceList()
       },
       searchReset () {
@@ -162,7 +169,6 @@
         this.queryParam.deviceId = ''
         this.getDeviceList()
       },
-      
       add() {
         this.edit();
       },
@@ -172,9 +178,6 @@
       },
       close() {
         this.$emit('close');
-        if (this.appType == 2) {
-          this.columns.splice(1, 1)
-        }
         this.visible = false;
       },
       async getDeviceList () {
