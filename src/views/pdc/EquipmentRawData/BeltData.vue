@@ -109,7 +109,11 @@
             dataIndex: 'appId_',
             scopedSlots: {customRender: 'appId'},
           },
-         
+        //  {
+        //     title: '洗选类型',
+        //     align: "center",
+        //     dataIndex: 'deviceId_'
+        //   },
           {
             title: '设备名称',
             align: "center",

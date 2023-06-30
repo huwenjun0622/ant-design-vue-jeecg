@@ -143,13 +143,12 @@
     watch: {
       appType: {
         handler (v) {
-          if (v == 2) {
+          if (Number(v) === 2) {
             this.columns.splice(1, 0, this.addobj)
           } else {
             this.columns = this.$options.data().columns
           }
-        },
-        immediate: true
+        }
       },
     },
     mounted() {
