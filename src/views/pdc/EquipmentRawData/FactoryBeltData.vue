@@ -113,12 +113,12 @@ import { filterObj } from '@/utils/util';
           {
             title: '洗选类型',
             align: "center",
-            dataIndex: 'deviceId_'
+            dataIndex: 'equipmentNumber'
           },
           {
             title: '设备名称',
             align: "center",
-            dataIndex: 'equipmentNumber'
+            dataIndex: 'deviceId_'
           },
           {
             title: '当时产量(吨)',

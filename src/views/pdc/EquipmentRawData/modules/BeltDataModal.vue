@@ -70,7 +70,7 @@
         addobj: {
           title: '洗选类型',
           align: "center",
-          dataIndex: 'deviceId_'
+          dataIndex: 'equipmentNumber'
         },
         // 表头
         columns: [
@@ -87,7 +87,7 @@
           {
             title: '设备名称',
             align: "center",
-            dataIndex: 'equipmentNumber'
+            dataIndex: 'deviceId_'
           },
           
           {

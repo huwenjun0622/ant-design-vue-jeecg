@@ -108,8 +108,8 @@ module.exports = {
       /* 注意：jeecgboot前端做了改造，此处不需要配置跨域和后台接口（只需要改.env相关配置文件即可）
           issues/3462 很多人此处做了配置，导致刷新前端404问题，请一定注意*/
       '/api': {
-        // target: 'http://172.16.149.62:8049',
-        target: 'http://172.16.94.123:8050/',
+        target: 'http://172.16.149.62:8049',
+        // target: 'http://172.16.94.123:8050/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

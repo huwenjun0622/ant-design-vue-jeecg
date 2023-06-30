@@ -117,7 +117,7 @@
           {
             title: '设备名称',
             align: "center",
-            dataIndex: 'equipmentNumber'
+            dataIndex: 'deviceId_'
           },
           {
             title: '当时产量(吨)',
