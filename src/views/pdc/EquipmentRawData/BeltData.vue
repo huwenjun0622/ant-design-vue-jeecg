@@ -41,6 +41,9 @@
         <span slot="appId" @click="handleDetail(record)" slot-scope="text, record" style="color: blue;text-decoration: underline;cursor: pointer;">
           {{ text }}
         </span>
+        <span slot="receiveTime" slot-scope="text, record" :style="{'color': record.warning? 'red': ''}">
+          {{ text }}
+        </span>
         <span slot="action" slot-scope="text, record">
           <a href="javascript:;" @click="handleDetail(record)">详情</a>
           <!-- <a-divider type="vertical"/>
@@ -142,7 +145,8 @@
           {
             title: '数据时间',
             align: "center",
-            dataIndex: 'receiveTime'
+            dataIndex: 'receiveTime',
+            scopedSlots: {customRender: 'receiveTime'},
           },
           {
             title: '操作',
@@ -159,6 +163,7 @@
           parentCode: ''
         },
         timer: '',
+        outTime: 1000*60*60*12
       }
     },
     computed: {
@@ -207,6 +212,12 @@
         postAction(this.url.list, params).then((res) => {
           if (res.code === '0000') {
             //update-begin---author:zhangyafei    Date:20201118  for：适配不分页的数据列表------------
+            res.data.forEach(element => {
+              if (element.receiveTime && new Date().getTime() - new Date(element.receiveTime).getTime() > this.outTime) {
+                element.warning = true
+              }
+            });
+            
             this.dataSource = res.data;
             if(res.total)
             {
